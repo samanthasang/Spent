@@ -1,0 +1,34 @@
+.ant-space {
+  float: right;
+  margin: 5px;
+}
+.go_to_register {
+  display: block;
+  color: black;
+  margin: 5px 10px;
+}
+svg {
+  width: 32px;
+  height: 32px;
+}
+
+
+.sidebar-item-style {
+  transition: .6s;
+}
+
+.sidebar-item-style:hover {
+  background: #7fadeb !important;
+  color: #fff !important;
+}
+
+.sidebar-item-style:hover path {
+  fill: #fff !important;
+
+}
+
+
+.child-controller {
+  display: flex;
+  flex-direction: column;
+}
