@@ -3,27 +3,36 @@ import UserActionTypes from "./userTypes";
 const INITIAL_STATE = {
   user: {},
   isLogedIn: false,
-  walletAddress: "",
-  IpfsHash: "",
-  JoinDate: "",
+  tags: [],
+  catts: [],
 };
 
 const userReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case UserActionTypes.REGISTER_USER:
+    case UserActionTypes.LOGIN_USER:
       return {
         ...state,
-        walletAddress: action.payload,
+        isLogedIn: !state.isLogedIn,
       };
-    case UserActionTypes.IP_FS_HASH:
+    case UserActionTypes.ADD_TAGS:
       return {
         ...state,
-        IpfsHash: action.payload,
+        tags: [...state.tags, action.payload],
       };
-    case UserActionTypes.SET_TIME:
+    case UserActionTypes.EMPTY_TAGS:
       return {
         ...state,
-        JoinDate: action.payload,
+        tags: [],
+      };
+    case UserActionTypes.ADD_CATTS:
+      return {
+        ...state,
+        catts: [...state.catts, action.payload],
+      };
+    case UserActionTypes.EMPTY_CATTS:
+      return {
+        ...state,
+        catts: [],
       };
     default:
       return state;

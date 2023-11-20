@@ -1,0 +1,22 @@
+
+@media screen and (min-width: 500px) {
+  .container_xs {
+    padding: 8%;
+  }
+}
+
+
+.our-partner-controller {
+  width: fit-content;
+}
+
+.our-partner-controller img {
+  max-width: 150px;
+}
+
+.MuiDrawer-paperAnchorRight {
+  height: 96% !important;
+  border-radius: 10px;
+  top: 2% !important;
+  right: .8rem !important;
+}

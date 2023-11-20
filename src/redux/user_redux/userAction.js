@@ -1,26 +1,41 @@
 import UserActionTypes from "./userTypes";
 
-export const UserWalletAddress = (walletAddress) => {
+export const LOGIN = () => {
   return {
-    type: UserActionTypes.REGISTER_USER,
-    payload: walletAddress,
+    type: UserActionTypes.LOGIN_USER,
   };
 };
-export const CheckWalletAddress = () => {
+export const AddTags = (tag) => {
   return {
-    type: UserActionTypes.CHECK_WALLET,
-    payload: true,
+    type: UserActionTypes.ADD_TAGS,
+    payload: tag,
   };
 };
-export const IpfsHash = () => {
+export const EMPTY_TAGS = () => {
   return {
-    type: UserActionTypes.IP_FS_HASH,
-    payload: true,
+    type: UserActionTypes.EMPTY_TAGS,
   };
 };
-export const setJoinDate = (date) => {
+export const AddCatts = (tag) => {
   return {
-    type: UserActionTypes.SET_TIME,
-    payload: date,
+    type: UserActionTypes.ADD_CATTS,
+    payload: tag,
   };
 };
+export const EMPTY_CATTS = () => {
+  return {
+    type: UserActionTypes.EMPTY_CATTS,
+  };
+};
+// export const IpfsHash = () => {
+//   return {
+//     type: UserActionTypes.IP_FS_HASH,
+//     payload: true,
+//   };
+// };
+// export const setJoinDate = (date) => {
+//   return {
+//     type: UserActionTypes.SET_TIME,
+//     payload: date,
+//   };
+// };

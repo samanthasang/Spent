@@ -1,0 +1,95 @@
+.login_bg {
+  height: 100vh;
+  background-size: cover !important;
+  background-repeat: no-repeat !important;
+  background-position: center !important;
+  backdrop-filter: blur(100px) !important;
+  -webkit-backdrop-filter: blur(100px) !important;
+  .login_bg_container {
+    height: 520px;
+    width: 930px;
+    border-radius: 8px;
+    background: rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(70px);
+    -webkit-backdrop-filter: blur(70px);
+  }
+  .login-form-button {
+    width: 100%;
+    /* Secondary/40 */
+
+    background: #2b87db;
+    /* Secondary/40 */
+
+    border: 1px solid #2b87db;
+    border-radius: 8px;
+  }
+
+  .Logo_Login span {
+    border-radius: 0;
+    width: 100%;
+  }
+
+  .txt_remember .ant-checkbox-wrapper {
+    font-family: "Poppins";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 21px;
+    color: #e1e5eb;
+  }
+  .fg_password {
+    font-family: "Poppins";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 21px;
+    /* identical to box height */
+
+    text-align: center;
+    letter-spacing: 0.0025em;
+
+    /* Link */
+
+    color: #2584db;
+
+    text-align: right;
+  }
+  .go_to_register {
+    display: block;
+    background: #21242c;
+    border-radius: 8px;
+    padding: 8px 10px;
+    text-align: center;
+    margin-top: 25px;
+    color: #e1e5eb;
+  }
+  .go_to_register:hover {
+    color: #e1e5eb;
+  }
+  .go_to_register b {
+    font-family: "Poppins";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 21px;
+    /* identical to box height */
+
+    text-align: center;
+    letter-spacing: 0.0025em;
+
+    color: #50abff;
+  }
+  .ant-dropdown-menu-item
+    .ant-dropdown-menu-submenu-expand-icon
+    .ant-dropdown-menu-submenu-arrow-icon,
+  .ant-dropdown-menu-submenu-title
+    .ant-dropdown-menu-submenu-expand-icon
+    .ant-dropdown-menu-submenu-arrow-icon,
+  .ant-input-password-icon.anticon,
+  .ant-input-suffix,
+  .ant-select-arrow,
+  .ant-modal-close-x,
+  .ant-picker-suffix {
+    color: #3d495d !important;
+  }
+}

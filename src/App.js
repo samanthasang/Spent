@@ -1,24 +1,31 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect } from "react";
+
+import { useSelector } from "react-redux";
+
+import { Routes, Route, useNavigate } from "react-router-dom";
+import "./App.css";
+import Home from "./pages/homePage/homepage.component";
+import LoginPage from "./pages/loginpage/loginpage.component";
+import LayoutTop from "./components/layout/layouttop";
 
 function App() {
+  let navigate = useNavigate();
+  // ckeck for user loged in
+  const isLogedIn = useSelector((state) => state.user.isLogedIn);
+  useEffect(() => {
+    console.log(isLogedIn);
+  }, [isLogedIn, navigate]);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Routes>
+      <Route path="/login" element={<LoginPage />} />
+      {/* private rout : if user is loged in has access to this routs  */}
+      {/* <Route element={<Privateroute isLogedIn={isLogedIn} />}> */}
+      {/* <Route element={<LayoutTop />}> */}
+      <Route path="/Home" element={<Home />} />
+      {/* </Route> */}
+      {/* </Route> */}
+      <Route path="*" element={<Home />} />
+    </Routes>
   );
 }
 

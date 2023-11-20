@@ -1,8 +1,9 @@
 const UserActionTypes = {
-  REGISTER_USER: "REGISTER_USER",
-  CHECK_WALLET: "CHECK_WALLET",
-  IP_FS_HASH: "IP_FS_HASH",
-  SET_TIME: "SET_TIME",
+  LOGIN_USER: "LOGIN_USER",
+  ADD_TAGS: "ADD_TAGS",
+  ADD_CATTS: "ADD_CATTS",
+  EMPTY_TAGS: "EMPTY_TAGS",
+  EMPTY_CATTS: "EMPTY_CATTS",
 };
 
 export default UserActionTypes;
