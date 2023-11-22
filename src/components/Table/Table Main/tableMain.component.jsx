@@ -1,23 +1,11 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 import "./tableMain.styles.css";
-import {
-  Button,
-  Form,
-  Input,
-  InputNumber,
-  Select,
-  DatePicker,
-  Table,
-  FloatButton,
-  Modal,
-  Space,
-  Tag,
-} from "antd";
+import { Button, Input, Table, Space, Tag } from "antd";
 import Highlighter from "react-highlight-words";
 import { SearchOutlined } from "@ant-design/icons";
 
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 const data = [
   {
@@ -67,6 +55,7 @@ const onChange = (pagination, filters, sorter, extra) => {
 
 const TableMain = () => {
   const dispatch = useDispatch();
+  const spents = useSelector((state) => state.user.spent);
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
   const searchInput = useRef(null);
@@ -182,152 +171,162 @@ const TableMain = () => {
       ),
   });
 
-const columns = [
-  {
-    title: "Name",
-    dataIndex: "name",
-    filters: [
-      {
-        text: "Joe",
-        value: "Joe",
-      },
-      {
-        text: "Jim",
-        value: "Jim",
-      },
-      {
-        text: "Submenu",
-        value: "Submenu",
-        children: [
-          {
-            text: "Green",
-            value: "Green",
-          },
-          {
-            text: "Black",
-            value: "Black",
-          },
-        ],
-      },
-    ],
-    // specify the condition of filtering result
-    // here is that finding the name started with `value`
-    onFilter: (value, record) => record.name.indexOf(value) === 0,
-    ...getColumnSearchProps("name"),
-    sorter: (a, b) => a.name.length - b.name.length,
-    sortDirections: ["descend"],
-  },
-  {
-    title: "Cattegory",
-    dataIndex: "cattegory",
-    filters: [
-      {
-        text: "cool",
-        value: "cool",
-      },
-      {
-        text: "teacher",
-        value: "teacher",
-      },
-    ],
-    // specify the condition of filtering result
-    // here is that finding the cattegory started with `value`
-    onFilter: (value, record) => record.cattegory.includes(value),
-    render: (cattegory) => (
-      <span>
-        {cattegory.map((tag) => {
-          let color = tag.length > 5 ? "geekblue" : "green";
-          if (tag === "loser") {
-            color = "volcano";
-          }
-          return (
-            <Tag color={color} key={tag}>
-              {tag.toUpperCase()}
-            </Tag>
-          );
-        })}
-      </span>
-    ),
-  },
-  {
-    title: "Price",
-    dataIndex: "price",
-    defaultSortOrder: "descend",
-    sorter: (a, b) => a.price - b.price,
-  },
-  {
-    title: "Number",
-    dataIndex: "number",
-    defaultSortOrder: "descend",
-    sorter: (a, b) => a.number - b.number,
-    ...getColumnSearchProps("number"),
-  },
-  {
-    title: "Tags",
-    key: "tags",
-    dataIndex: "tags",
-    filters: [
-      {
-        text: "cool",
-        value: "cool",
-      },
-      {
-        text: "teacher",
-        value: "teacher",
-      },
-    ],
-    onFilter: (value, record) => record.tags.includes(value),
-    render: (tags) => (
-      <span>
-        {tags.map((tag) => {
-          let color = tag.length > 5 ? "geekblue" : "green";
-          if (tag === "loser") {
-            color = "volcano";
-          }
-          return (
-            <Tag color={color} key={tag}>
-              {tag.toUpperCase()}
-            </Tag>
-          );
-        })}
-      </span>
-    ),
-  },
-  {
-    title: "Date",
-    dataIndex: "date",
-    key: "date",
-  },
-  {
-    title: "Description",
-    dataIndex: "description",
-    filters: [
-      {
-        text: "London",
-        value: "London",
-      },
-      {
-        text: "New York",
-        value: "New York",
-      },
-    ],
-    onFilter: (value, record) => record.description.indexOf(value) === 0,
-    ...getColumnSearchProps("description"),
-  },
-  {
-    title: "Action",
-    key: "action",
-    render: (_, record) => (
-      <Space size="middle">
-        <a>Invite {record.name}</a>
-        <a>Delete</a>
-      </Space>
-    ),
-  },
-];
+  const columns = [
+    {
+      title: "Name",
+      dataIndex: "name",
+      filters: [
+        {
+          text: "Joe",
+          value: "Joe",
+        },
+        {
+          text: "Jim",
+          value: "Jim",
+        },
+        {
+          text: "Submenu",
+          value: "Submenu",
+          children: [
+            {
+              text: "Green",
+              value: "Green",
+            },
+            {
+              text: "Black",
+              value: "Black",
+            },
+          ],
+        },
+      ],
+      // specify the condition of filtering result
+      // here is that finding the name started with `value`
+      onFilter: (value, record) => record.name.indexOf(value) === 0,
+      ...getColumnSearchProps("name"),
+      sorter: (a, b) => a.name.length - b.name.length,
+      sortDirections: ["descend"],
+    },
+    {
+      title: "Cattegory",
+      dataIndex: "cattegory",
+      filters: [
+        {
+          text: "cool",
+          value: "cool",
+        },
+        {
+          text: "teacher",
+          value: "teacher",
+        },
+      ],
+      // specify the condition of filtering result
+      // here is that finding the cattegory started with `value`
+      onFilter: (value, record) => record.cattegory.includes(value),
+      render: (cattegory) => (
+        <span>
+          {cattegory.map((cattegory) => {
+            let color = cattegory.length > 5 ? "geekblue" : "green";
+            if (cattegory === "loser") {
+              color = "volcano";
+            }
+            return (
+              <Tag color={color} key={cattegory}>
+                {cattegory.toUpperCase()}
+              </Tag>
+            );
+          })}
+        </span>
+      ),
+    },
+    {
+      title: "Price",
+      dataIndex: "price",
+      render: (price) => (
+        <span>
+            {price.number +" "+ price.currency}
+        </span>
+      ),
+      defaultSortOrder: "descend",
+      sorter: (a, b) => a.price.number - b.price.number,
+    },
+    {
+      title: "Number",
+      dataIndex: "number",
+      defaultSortOrder: "descend",
+      sorter: (a, b) => a.number - b.number,
+      ...getColumnSearchProps("number"),
+    },
+    {
+      title: "Tags",
+      key: "tags",
+      dataIndex: "tags",
+      filters: [
+        {
+          text: "cool",
+          value: "cool",
+        },
+        {
+          text: "teacher",
+          value: "teacher",
+        },
+      ],
+      onFilter: (value, record) => record.tags.includes(value),
+      render: (tags) => (
+        <span>
+          {tags.map((tag) => {
+            let color = tag.length > 5 ? "geekblue" : "green";
+            if (tag === "loser") {
+              color = "volcano";
+            }
+            return (
+              <Tag color={color} key={tag}>
+                {tag.toUpperCase()}
+              </Tag>
+            );
+          })}
+        </span>
+      ),
+    },
+    {
+      title: "Date",
+      dataIndex: "date",
+      key: "date",
+    },
+    {
+      title: "Description",
+      dataIndex: "description",
+      filters: [
+        {
+          text: "London",
+          value: "London",
+        },
+        {
+          text: "New York",
+          value: "New York",
+        },
+      ],
+      onFilter: (value, record) => record.description.indexOf(value) === 0,
+      ...getColumnSearchProps("description"),
+    },
+    {
+      title: "Action",
+      key: "action",
+      render: (_, record) => (
+        <Space size="middle">
+          <a>Invite {record.name}</a>
+          <a>Delete</a>
+        </Space>
+      ),
+    },
+  ];
+
+  useEffect(() => {
+    console.log(spents);
+  }, [spents]);
+
   return (
     <>
-      <Table columns={columns} dataSource={data} onChange={onChange} />
+      <Table columns={columns} dataSource={spents} onChange={onChange} />
     </>
   );
 };

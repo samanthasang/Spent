@@ -16,15 +16,21 @@ export const EMPTY_TAGS = () => {
     type: UserActionTypes.EMPTY_TAGS,
   };
 };
-export const AddCatts = (tag) => {
+export const AddCatts = (catt) => {
   return {
     type: UserActionTypes.ADD_CATTS,
-    payload: tag,
+    payload: catt,
   };
 };
 export const EMPTY_CATTS = () => {
   return {
     type: UserActionTypes.EMPTY_CATTS,
+  };
+};
+export const addNewSpent = (spent) => {
+  return {
+    type: UserActionTypes.ADD_SPENT,
+    payload: spent,
   };
 };
 // export const IpfsHash = () => {

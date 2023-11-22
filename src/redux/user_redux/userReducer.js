@@ -1,10 +1,10 @@
 import UserActionTypes from "./userTypes";
 
 const INITIAL_STATE = {
-  user: {},
   isLogedIn: false,
   tags: [],
   catts: [],
+  spent: [],
 };
 
 const userReducer = (state = INITIAL_STATE, action) => {
@@ -17,7 +17,7 @@ const userReducer = (state = INITIAL_STATE, action) => {
     case UserActionTypes.ADD_TAGS:
       return {
         ...state,
-        tags: [...state.tags, action.payload],
+        tags: action.payload,
       };
     case UserActionTypes.EMPTY_TAGS:
       return {
@@ -27,7 +27,12 @@ const userReducer = (state = INITIAL_STATE, action) => {
     case UserActionTypes.ADD_CATTS:
       return {
         ...state,
-        catts: [...state.catts, action.payload],
+        catts: action.payload,
+      };
+    case UserActionTypes.ADD_SPENT:
+      return {
+        ...state,
+        spent: action.payload,
       };
     case UserActionTypes.EMPTY_CATTS:
       return {

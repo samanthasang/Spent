@@ -2,13 +2,21 @@ import React, { useState } from "react";
 
 import "./mainForm.styles.css";
 import { Button, Form, Input, InputNumber, Select, DatePicker } from "antd";
-import { useDispatch } from "react-redux";
-import { LOGIN } from "../../../redux/user_redux/userAction";
+import { useDispatch, useSelector } from "react-redux";
+import { LOGIN, addNewSpent } from "../../../redux/user_redux/userAction";
 
 const { Option } = Select;
+const options = [];
+for (let i = 10; i < 36; i++) {
+  options.push({
+    label: i.toString(36) + i,
+    value: i.toString(36) + i,
+  });
+}
 const PriceInput = ({ value = {}, onChange }) => {
   const [number, setNumber] = useState(0);
   const [currency, setCurrency] = useState("rmb");
+
   const triggerChange = (changedValue) => {
     onChange?.({
       number,
@@ -33,9 +41,7 @@ const PriceInput = ({ value = {}, onChange }) => {
     if (!("currency" in value)) {
       setCurrency(newCurrency);
     }
-    triggerChange({
-      currency: newCurrency,
-    });
+    triggerChange({ currency: newCurrency });
   };
 
   return (
@@ -95,13 +101,16 @@ const validateMessages = {
 };
 /* eslint-enable no-template-curly-in-string */
 
-const onFinish = (values) => {
-  console.log(values);
-};
-
 const MainTable = () => {
   const dispatch = useDispatch();
+  const spentState = useSelector((state) => state.user.spent);
+  const tagsState = useSelector((state) => state.user.tags);
+  const cattsState = useSelector((state) => state.user.catts);
 
+  const onFinish = (values) => {
+    console.log(values["user"]);
+    dispatch(addNewSpent([...spentState, values["user"]]));
+  };
   const handleSubmit = (event) => {
     event.preventDefault();
     dispatch(LOGIN());
@@ -113,6 +122,9 @@ const MainTable = () => {
     return Promise.reject(new Error("Price must be greater than zero!"));
   };
 
+  const handleChange = (value) => {
+    console.log(`selected ${value}`);
+  };
   return (
     <>
       <Form
@@ -148,14 +160,14 @@ const MainTable = () => {
           <PriceInput />
         </Form.Item>
         <Form.Item
-          name={["user", "date-time-picker"]}
+          name={["user", "date"]}
           label="DatePicker[showTime]"
           {...config}
         >
           <DatePicker showTime format="YYYY-MM-DD HH:mm:ss" />
         </Form.Item>
         <Form.Item
-          name={["user", "Number"]}
+          name={["user", "number"]}
           label="Number"
           rules={[
             {
@@ -167,16 +179,30 @@ const MainTable = () => {
         >
           <InputNumber min={0} />
         </Form.Item>
-        <Form.Item name={["user", "Catt"]} label="Cattegory">
-          <Select>
-            <Select.Option value="demo">Demo</Select.Option>
-          </Select>
+        <Form.Item name={["user", "cattegory"]} label="Cattegory">
+          <Select
+            mode="multiple"
+            allowClear
+            style={{
+              width: "100%",
+            }}
+            placeholder="Please select"
+            onChange={handleChange}
+            options={cattsState}
+          />
         </Form.Item>
 
-        <Form.Item name={["user", "Tag"]} label="Tag">
-          <Select>
-            <Select.Option value="demo">Demo</Select.Option>
-          </Select>
+        <Form.Item name={["user", "tags"]} label="Tag">
+          <Select
+            mode="multiple"
+            allowClear
+            style={{
+              width: "100%",
+            }}
+            placeholder="Please select"
+            onChange={handleChange}
+            options={tagsState}
+          />
         </Form.Item>
 
         <Form.Item name={["user", "description"]} label="description">

@@ -2,7 +2,13 @@ import { useState } from "react";
 import "./layout.styles.css";
 
 import { useDispatch, useSelector } from "react-redux";
-import { AddCatts, AddTags, EMPTY_CATTS, EMPTY_TAGS, LOGIN } from "../../redux/user_redux/userAction";
+import {
+  AddCatts,
+  AddTags,
+  EMPTY_CATTS,
+  EMPTY_TAGS,
+  LOGIN,
+} from "../../redux/user_redux/userAction";
 import { Button, FloatButton, Form, Input, Modal } from "antd";
 import { CommentOutlined, CustomerServiceOutlined } from "@ant-design/icons";
 
@@ -30,6 +36,7 @@ const LayoutTop = () => {
   const dispatch = useDispatch();
   const tagsState = useSelector((state) => state.user.tags);
   const cattsState = useSelector((state) => state.user.catts);
+  const spents = useSelector((state) => state.user.spent);
 
   const [open, setOpen] = useState(false);
   const [confirmLoading, setConfirmLoading] = useState(false);
@@ -75,18 +82,27 @@ const LayoutTop = () => {
   };
   const onFinish = (values) => {
     console.log(values);
-    dispatch(AddCatts(values["catt"]));
+    dispatch(
+      AddCatts([
+        ...cattsState,
+        { label: values["catt"], value: values["catt"] },
+      ])
+    );
   };
   const onFinishTag = (values) => {
     console.log(values["tag"]);
-    dispatch(AddTags(values["tag"]));
+    
+    dispatch(
+      AddTags([
+        ...tagsState,
+        { label: values["tag"], value: values["tag"] },
+      ])
+    );
   };
 
   return (
     <>
       <div className="our-partner-controller" style={{}}>
-        {tagsState}
-        {cattsState}
       </div>
       <Button
         htmlType="submit"
