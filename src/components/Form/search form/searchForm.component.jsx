@@ -1,25 +1,20 @@
 import React, { useState } from "react";
 
-import "./home.styles.css";
+import "./searchForm.styles.css";
+import { Button, Form, Input, InputNumber, Select, DatePicker } from "antd";
+import dayjs from "dayjs";
+import { useDispatch, useSelector } from "react-redux";
 import {
-  Button,
-  Form,
-  Input,
-  InputNumber,
-  Select,
-  DatePicker,
-  Table,
-  FloatButton,
-  Modal,
-} from "antd";
-import { useDispatch } from "react-redux";
-import { LOGIN } from "../../../redux/user_redux/userAction";
+  LOGIN,
+  addSearchRecord,
+  resetSearchRecord,
+} from "../../../redux/user_redux/userAction";
 
 const { RangePicker } = DatePicker;
 const { Option } = Select;
 const PriceInput = ({ value = {}, onChange }) => {
   const [number, setNumber] = useState(0);
-  const [currency, setCurrency] = useState("rmb");
+  const [currency, setCurrency] = useState("تومان");
   const triggerChange = (changedValue) => {
     onChange?.({
       number,
@@ -49,7 +44,6 @@ const PriceInput = ({ value = {}, onChange }) => {
     });
   };
 
-
   return (
     <span>
       <Input
@@ -68,13 +62,12 @@ const PriceInput = ({ value = {}, onChange }) => {
         }}
         onChange={onCurrencyChange}
       >
-        <Option value="rmb">RMB</Option>
-        <Option value="dollar">Dollar</Option>
+        <Option value="تومان">تومان</Option>
+        <Option value="ریال">ریال</Option>
       </Select>
     </span>
   );
 };
-
 
 const config = {
   rules: [
@@ -106,10 +99,6 @@ const validateMessages = {
   },
 };
 /* eslint-enable no-template-curly-in-string */
-
-const onFinish = (values) => {
-  console.log(values);
-};
 
 const columns = [
   {
@@ -193,13 +182,67 @@ const data = [
     address: "London No. 2 Lake Park",
   },
 ];
-const onChange = (pagination, filters, sorter, extra) => {
-  console.log("params", pagination, filters, sorter, extra);
+
+const onChange = (date) => {
+  if (date) {
+    console.log("Date: ", date);
+  } else {
+    console.log("Clear");
+  }
 };
 
-const Home = () => {
-  const dispatch = useDispatch();
+const rangePresets = [
+  {
+    label: "Last 7 Days",
+    value: [dayjs().add(-7, "d"), dayjs()],
+  },
+  {
+    label: "Last 14 Days",
+    value: [dayjs().add(-14, "d"), dayjs()],
+  },
+  {
+    label: "Last 30 Days",
+    value: [dayjs().add(-30, "d"), dayjs()],
+  },
+  {
+    label: "Last 90 Days",
+    value: [dayjs().add(-90, "d"), dayjs()],
+  },
+];
 
+const SearchForm = () => {
+  const dispatch = useDispatch();
+  const spentState = useSelector((state) => state.user.spent);
+  const tagsState = useSelector((state) => state.user.tags);
+  const cattsState = useSelector((state) => state.user.catts);
+  const [searchForm] = Form.useForm();
+
+  const onReset = () => {
+    searchForm.setFieldsValue({
+      user: {
+        name: null,
+        price: {
+          number: 0,
+          currency: "تومان",
+        },
+        date: null,
+        number: null,
+        cattegory: [],
+        tags: [],
+        description: null,
+        id: null,
+      },
+    });
+    dispatch(resetSearchRecord({}));
+  };
+  const onFinish = (values) => {
+    dispatch(
+      addSearchRecord([
+        dayjs(values.user.date[0]).valueOf(),
+        dayjs(values.user.date[1]).valueOf(),
+      ])
+    );
+  };
   const handleSubmit = (event) => {
     event.preventDefault();
     dispatch(LOGIN());
@@ -211,38 +254,38 @@ const Home = () => {
     return Promise.reject(new Error("Price must be greater than zero!"));
   };
 
+  const onRangeChange = (dates, dateStrings) => {
+    if (dates) {
+      console.log(
+        "From: ",
+        dayjs(dates[0]).valueOf(),
+        ", to: ",
+        dayjs(dates[1]).valueOf()
+      );
+      console.log("From: ", dateStrings[0], ", to: ", dateStrings[1]);
+    } else {
+      console.log("Clear");
+    }
+  };
 
-
-
-
-
-
-
+  const handleChange = (value) => {
+    console.log(`selected ${value}`);
+  };
 
   return (
     <>
-      <div className="our-partner-controller" style={{}}>
-        HI
-      </div>
-      <Button
-        htmlType="submit"
-        className="btn_next"
-        style={{ width: "100%", marginLeft: "0" }}
-        onClick={handleSubmit}
-      >
-        LogOut
-      </Button>
       <Form
         {...layout}
-        name="nest-messages"
+        name="search-form"
         onFinish={onFinish}
+        form={searchForm}
         style={{
           maxWidth: 600,
         }}
         validateMessages={validateMessages}
       >
         <Form.Item
-          name={["user", "name"]}
+          name={["user", "date"]}
           label="Name"
           rules={[
             {
@@ -250,69 +293,89 @@ const Home = () => {
             },
           ]}
         >
+          <RangePicker
+            presets={[
+              {
+                label: <span aria-label="Today">Today</span>,
+                value: () => [dayjs().startOf("day"), dayjs().endOf("day")], // 5.8.0+ support function
+              },
+              ...rangePresets,
+            ]}
+            showTime
+            format="YYYY/MM/DD HH:mm:ss"
+            onChange={onRangeChange}
+          />
+        </Form.Item>
+        {/* <Form.Item name={["user", "name"]} label="Name">
           <Input />
         </Form.Item>
-        <Form.Item
-          name="price"
-          label="Price"
-          rules={[
-            {
-              validator: checkPrice,
-            },
-          ]}
-        >
+        <Form.Item name={["user", "price"]} label="Price">
           <PriceInput />
         </Form.Item>
         <Form.Item
-          name="date-time-picker"
-          label="DatePicker[showTime]"
-          {...config}
-        >
-          <DatePicker showTime format="YYYY-MM-DD HH:mm:ss" />
-        </Form.Item>
-        <Form.Item
-          name={["user", "age"]}
-          label="Age"
+          name={["user", "number"]}
+          label="Number"
           rules={[
             {
               type: "number",
               min: 0,
-              max: 99,
             },
           ]}
         >
           <InputNumber min={0} />
         </Form.Item>
-        <Form.Item label="Select">
-          <Select>
-            <Select.Option value="demo">Demo</Select.Option>
-          </Select>
+        <Form.Item name={["user", "cattegory"]} label="Cattegory">
+          <Select
+            mode="multiple"
+            allowClear
+            style={{
+              width: "100%",
+            }}
+            placeholder="Please select"
+            onChange={handleChange}
+            options={cattsState}
+          />
         </Form.Item>
-        <Form.Item label="Select">
-          <Select>
-            <Select.Option value="demo">Demo</Select.Option>
-          </Select>
+
+        <Form.Item name={["user", "tags"]} label="Tag">
+          <Select
+            mode="multiple"
+            allowClear
+            style={{
+              width: "100%",
+            }}
+            placeholder="Please select"
+            onChange={handleChange}
+            options={tagsState}
+          />
         </Form.Item>
-        <Form.Item name={["user", "website"]} label="Website">
-          <Input />
-        </Form.Item>
-        <Form.Item name={["user", "introduction"]} label="Introduction">
+
+        <Form.Item name={["user", "description"]} label="description">
           <Input.TextArea />
-        </Form.Item>
+        </Form.Item> */}
         <Form.Item
           wrapperCol={{
             ...layout.wrapperCol,
             offset: 8,
+            span: 16,
           }}
         >
-          <Button type="primary" htmlType="submit">
+          <Button type="primary" htmlType="submit" className="">
             Submit
           </Button>
+          <Button type="primary" htmlType="button" onClick={() => onReset()}>
+            Reset
+          </Button>
         </Form.Item>
+        <Form.Item
+          wrapperCol={{
+            ...layout.wrapperCol,
+            offset: 4,
+          }}
+        ></Form.Item>
       </Form>
-      <Table columns={columns} dataSource={data} onChange={onChange} />
     </>
   );
 };
 
-export default Home;
+export default SearchForm;

@@ -1,10 +1,22 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { v4 as uuidv4 } from "uuid";
 
 import "./mainForm.styles.css";
 import { Button, Form, Input, InputNumber, Select, DatePicker } from "antd";
 import { useDispatch, useSelector } from "react-redux";
-import { LOGIN, addNewSpent } from "../../../redux/user_redux/userAction";
+import {
+  LOGIN,
+  addNewSpent,
+  repeatrecordSpent,
+} from "../../../redux/user_redux/userAction";
 
+import dayjs from "dayjs";
+import locale from "antd/es/date-picker/locale/en_GB";
+
+import customParseFormat from "dayjs/plugin/customParseFormat";
+import localeData from "dayjs/plugin/localeData";
+dayjs.extend(customParseFormat);
+dayjs.extend(localeData);
 const { Option } = Select;
 const options = [];
 for (let i = 10; i < 36; i++) {
@@ -15,7 +27,7 @@ for (let i = 10; i < 36; i++) {
 }
 const PriceInput = ({ value = {}, onChange }) => {
   const [number, setNumber] = useState(0);
-  const [currency, setCurrency] = useState("rmb");
+  const [currency, setCurrency] = useState("تومان");
 
   const triggerChange = (changedValue) => {
     onChange?.({
@@ -62,9 +74,9 @@ const PriceInput = ({ value = {}, onChange }) => {
         }}
         onChange={onCurrencyChange}
       >
-        <Option value="rial">ریال</Option>
-        <Option value="toman">تومان</Option>
-        <Option value="dollar">دلار</Option>
+        <Option value="ریال">ریال</Option>
+        <Option value="تومان">تومان</Option>
+        <Option value="دلار">دلار</Option>
       </Select>
     </span>
   );
@@ -103,18 +115,92 @@ const validateMessages = {
 
 const MainTable = () => {
   const dispatch = useDispatch();
+  const [form] = Form.useForm();
   const spentState = useSelector((state) => state.user.spent);
   const tagsState = useSelector((state) => state.user.tags);
   const cattsState = useSelector((state) => state.user.catts);
+  const repeat = useSelector((state) => state.user.repeat);
+  const edit = useSelector((state) => state.user.edit);
 
   const onFinish = (values) => {
+    let user = values["user"];
     console.log(values["user"]);
-    dispatch(addNewSpent([...spentState, values["user"]]));
+    user = {
+      ...user,
+      date: dayjs(values["user"].date).valueOf(),
+      id: edit ? edit : uuidv4(),
+    };
+    dispatch(addNewSpent(user));
+    form.setFieldsValue({
+      user: {
+        name: null,
+        price: {
+          number: 0,
+          currency: "تومان",
+        },
+        date: null,
+        number: null,
+        cattegory: [],
+        tags: [],
+        description: null,
+        id: null,
+      },
+    });
   };
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    dispatch(LOGIN());
+  const onFill = () => {
+    // let user = repeat;
+    // user = { ...user, date: "", id: uuidv4() };
+    // dispatch(addNewSpent([...spentState, user]));
+    console.log(edit);
+    console.log(repeat);
+    console.log(dayjs(repeat.date).format());
+    let newRecord = {
+      user: {
+        name: repeat.name,
+        price: {
+          number: repeat.price.number,
+          currency: repeat.price.currency,
+        },
+        date: !edit ? null : dayjs(repeat.date),
+        number: repeat.number,
+        cattegory: repeat.cattegory,
+        tags: repeat.tags,
+        description: repeat.description,
+      },
+    };
+    form.setFieldsValue(newRecord);
+    // dispatch(repeatrecordSpent({ spent: null, edit: true }));
+    console.log(repeat);
   };
+
+  const onReset = () => {
+    console.log(repeat);
+    // let user = repeat;
+    // user = { ...user, date: "", id: uuidv4() };
+    // dispatch(addNewSpent([...spentState, user]));
+    form.setFieldsValue({
+      user: {
+        name: null,
+        price: {
+          number: 0,
+          currency: "تومان",
+        },
+        date: null,
+        number: null,
+        cattegory: [],
+        tags: [],
+        description: null,
+        id: null,
+      },
+    });
+    dispatch(repeatrecordSpent({ spent: null, edit: false }));
+  };
+  useEffect(() => {
+    console.log(repeat);
+    console.log(edit);
+    repeat && repeat.name && onFill();
+  }, [repeat]);
+
   const checkPrice = (_, value) => {
     if (value.number > 0) {
       return Promise.resolve();
@@ -129,9 +215,10 @@ const MainTable = () => {
     <>
       <Form
         {...layout}
-        name="nest-messages"
+        name="main-form"
         onFinish={onFinish}
         onSubmit={onFinish}
+        form={form}
         style={{
           maxWidth: 600,
         }}
@@ -154,6 +241,8 @@ const MainTable = () => {
           rules={[
             {
               validator: checkPrice,
+              type: "number",
+              min: 0,
             },
           ]}
         >
@@ -164,7 +253,7 @@ const MainTable = () => {
           label="DatePicker[showTime]"
           {...config}
         >
-          <DatePicker showTime format="YYYY-MM-DD HH:mm:ss" />
+          <DatePicker locale={locale} showTime format="YYYY-MM-DD HH:mm:ss" />
         </Form.Item>
         <Form.Item
           name={["user", "number"]}
@@ -173,7 +262,6 @@ const MainTable = () => {
             {
               type: "number",
               min: 0,
-              max: 99,
             },
           ]}
         >
@@ -208,14 +296,38 @@ const MainTable = () => {
         <Form.Item name={["user", "description"]} label="description">
           <Input.TextArea />
         </Form.Item>
+        {!edit ? (
+          <Form.Item
+            wrapperCol={{
+              ...layout.wrapperCol,
+              offset: 8,
+            }}
+          >
+            <Button type="primary" htmlType="submit">
+              Submit
+            </Button>
+          </Form.Item>
+        ) : (
+          <Form.Item
+            wrapperCol={{
+              ...layout.wrapperCol,
+              offset: 8,
+            }}
+          >
+            <Button type="primary" htmlType="submit">
+              Edit
+            </Button>
+          </Form.Item>
+        )}
+
         <Form.Item
           wrapperCol={{
             ...layout.wrapperCol,
             offset: 8,
           }}
         >
-          <Button type="primary" htmlType="submit">
-            Submit
+          <Button type="primary" htmlType="button" onClick={() => onReset()}>
+            Reset
           </Button>
         </Form.Item>
       </Form>

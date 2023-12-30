@@ -6,7 +6,6 @@ import { Routes, Route, useNavigate } from "react-router-dom";
 import "./App.css";
 import Home from "./pages/homePage/homepage.component";
 import LoginPage from "./pages/loginpage/loginpage.component";
-import LayoutTop from "./components/layout/layouttop";
 
 function App() {
   let navigate = useNavigate();
