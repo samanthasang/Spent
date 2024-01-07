@@ -10,7 +10,11 @@ const Home = () => {
   return (
     <>
       <Row>
-        <Col span={12} offset={0}>
+        <Col
+          className="m-0 flex items-center justify-between p-6 bg-sky-900"
+          span={12}
+          offset={0}
+        >
           <Card
             style={{
               width: 700,
@@ -18,8 +22,6 @@ const Home = () => {
           >
             <MainForm />
           </Card>
-        </Col>
-        <Col span={12} offset={0}>
           <Card
             style={{
               width: 300,
@@ -28,6 +30,7 @@ const Home = () => {
             <SearchForm />
           </Card>
         </Col>
+        <Col span={12} offset={0}></Col>
         <Col span={24}>
           <TableMain />
         </Col>

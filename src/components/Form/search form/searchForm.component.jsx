@@ -360,10 +360,19 @@ const SearchForm = () => {
             span: 16,
           }}
         >
-          <Button type="primary" htmlType="submit" className="">
+          <Button
+            className="bg-btn-900"
+            type="primary"
+            htmlType="submit"
+          >
             Submit
           </Button>
-          <Button type="primary" htmlType="button" onClick={() => onReset()}>
+          <Button
+            className="bg-btn-900"
+            type="primary"
+            htmlType="button"
+            onClick={() => onReset()}
+          >
             Reset
           </Button>
         </Form.Item>

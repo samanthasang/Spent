@@ -303,7 +303,7 @@ const MainTable = () => {
               offset: 8,
             }}
           >
-            <Button type="primary" htmlType="submit">
+            <Button className="bg-btn-900" type="primary" htmlType="submit">
               Submit
             </Button>
           </Form.Item>
@@ -314,7 +314,7 @@ const MainTable = () => {
               offset: 8,
             }}
           >
-            <Button type="primary" htmlType="submit">
+            <Button className="bg-btn-900" type="primary" htmlType="submit">
               Edit
             </Button>
           </Form.Item>
@@ -326,7 +326,12 @@ const MainTable = () => {
             offset: 8,
           }}
         >
-          <Button type="primary" htmlType="button" onClick={() => onReset()}>
+          <Button
+            className="bg-btn-900"
+            type="primary"
+            htmlType="button"
+            onClick={() => onReset()}
+          >
             Reset
           </Button>
         </Form.Item>

@@ -7,7 +7,7 @@ import LayoutTop from "../../components/layout/layouttop";
 
 const HomePage = () => (
   <Row>
-    <Col span={24}>
+    <Col  span={24}>
       <LayoutTop />
       <Home />
     </Col>

@@ -3,12 +3,14 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@material-tailwind/react": "^2.1.8",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.3.0",
     "@testing-library/user-event": "^13.5.0",
     "antd": "^5.11.1",
     "axios": "^0.27.2",
     "node-sass": "^7.0.1",
+    "postcss": "^8.4.32",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-highlight-words": "^0.20.0",
@@ -22,6 +24,7 @@
     "redux-persist": "^6.0.0",
     "redux-thunk": "^2.4.1",
     "reselect": "^4.1.6",
+    "tailwindcss": "^3.4.0",
     "uuid": "^9.0.1",
     "web-vitals": "^2.1.4"
   },
