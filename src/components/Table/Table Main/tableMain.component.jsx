@@ -373,6 +373,28 @@ const TableMain = () => {
       ...getColumnSearchProps("name"),
     },
     {
+      title: "Tags",
+      key: "tags",
+      dataIndex: "tags",
+      filters: tagsState,
+      onFilter: (value, record) => record.tags.includes(value),
+      render: (tags) => (
+        <span>
+          {tags.map((tag) => {
+            let color = tag.length > 5 ? "geekblue" : "green";
+            if (tag === "loser") {
+              color = "volcano";
+            }
+            return (
+              <Tag color={color} key={tag}>
+                {tag.toUpperCase()}
+              </Tag>
+            );
+          })}
+        </span>
+      ),
+    },
+    {
       title: "Cattegory",
       dataIndex: "cattegory",
       filters: cattsState,
@@ -406,28 +428,6 @@ const TableMain = () => {
       dataIndex: "number",
       sorter: (a, b) => a.number - b.number,
       ...getColumnSearchProps("number"),
-    },
-    {
-      title: "Tags",
-      key: "tags",
-      dataIndex: "tags",
-      filters: tagsState,
-      onFilter: (value, record) => record.tags.includes(value),
-      render: (tags) => (
-        <span>
-          {tags.map((tag) => {
-            let color = tag.length > 5 ? "geekblue" : "green";
-            if (tag === "loser") {
-              color = "volcano";
-            }
-            return (
-              <Tag color={color} key={tag}>
-                {tag.toUpperCase()}
-              </Tag>
-            );
-          })}
-        </span>
-      ),
     },
     {
       title: "Date",
@@ -501,8 +501,6 @@ const TableMain = () => {
         summary={(pageData) => {
           let priceCurrency = 0;
           let totalPriceRial = 0;
-          let totalPriceToman = 0;
-          let totalPriceDollar = 0;
           pageData.forEach(({ price }) => {
             totalPriceRial += price.number;
             priceCurrency = price.currency;
