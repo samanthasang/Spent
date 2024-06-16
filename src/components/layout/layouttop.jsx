@@ -28,6 +28,7 @@ import { SearchOutlined } from "@ant-design/icons";
 import { CommentOutlined, CustomerServiceOutlined } from "@ant-design/icons";
 import React, { useMemo } from "react";
 import {} from "antd";
+import { Link, redirect } from "react-router-dom";
 const Context = React.createContext({
   name: "Default",
 });
@@ -367,15 +368,40 @@ const LayoutTop = () => {
     <>
       <Context.Provider value={contextValue}>
         {contextHolder}
-        <div className="our-partner-controller" style={{}}></div>
-        <Button
-          htmlType="submit"
-          className="btn_next"
-          style={{ width: "100%", marginLeft: "0" }}
-          onClick={handleSubmit}
-        >
-          LogOut
-        </Button>
+        <div className="our-partner-controller flex flex-col" style={{}}>
+          <Link
+            htmlType="submit"
+            className="btn_next"
+            style={{ width: "100%", marginLeft: "0" }}
+            to={"/home"}
+          >
+            Buy
+          </Link>
+          <Link
+            htmlType="submit"
+            className="btn_next"
+            style={{ width: "100%", marginLeft: "0" }}
+            to={"/Time"}
+          >
+            Time
+          </Link>
+          <Link
+            htmlType="submit"
+            className="btn_next"
+            style={{ width: "100%", marginLeft: "0" }}
+            to={"/Callender"}
+          >
+            Callender
+          </Link>
+          <Button
+            htmlType="submit"
+            className="btn_next"
+            style={{ width: "100%", marginLeft: "0" }}
+            onClick={handleSubmit}
+          >
+            LogOut
+          </Button>
+        </div>
 
         <FloatButton.Group
           trigger="click"

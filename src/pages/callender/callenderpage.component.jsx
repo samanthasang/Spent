@@ -1,17 +1,17 @@
 import React from "react";
 
-import "./homepage.styles.css";
+import "./callenderpage.styles.css";
 import Home from "../../components/home/home.component";
 import { Col, Row } from "antd";
 import LayoutTop from "../../components/layout/layouttop";
 
-const HomePage = () => (
+const CallenderPage = () => (
   <Row>
     <Col span={24}>
       <LayoutTop />
-      <Home />
+      <h1>CallenderPage</h1>
     </Col>
   </Row>
 );
 
-export default HomePage;
+export default CallenderPage;

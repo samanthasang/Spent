@@ -1,17 +1,16 @@
 import React from "react";
 
-import "./homepage.styles.css";
-import Home from "../../components/home/home.component";
+import "./timepage.styles.css";
 import { Col, Row } from "antd";
 import LayoutTop from "../../components/layout/layouttop";
 
-const HomePage = () => (
+const TimePage = () => (
   <Row>
     <Col span={24}>
       <LayoutTop />
-      <Home />
+      <h1>TimePage</h1>
     </Col>
   </Row>
 );
 
-export default HomePage;
+export default TimePage;
