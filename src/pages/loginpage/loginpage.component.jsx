@@ -3,7 +3,6 @@ import React from "react";
 
 import Login from "../../components/login-items/login/login.component";
 
-import "./loginpage.styles.scss";
 
 // main login component
 const LoginPage = () => (

@@ -1,7 +1,7 @@
 import React from "react";
 import { Button, Col, Row } from "antd";
 
-import "./login.styles.scss";
+import "./login.styles.css";
 import { EMPTY_CATTS, EMPTY_TAGS, LOGIN } from "../../../redux/user_redux/userAction";
 import { useDispatch } from "react-redux";
 

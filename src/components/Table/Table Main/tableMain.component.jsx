@@ -508,6 +508,12 @@ const TableMain = () => {
           return (
             <>
               <Table.Summary.Row>
+                <Table.Summary.Cell index={0}>Total Item</Table.Summary.Cell>
+                <Table.Summary.Cell index={1}>
+                  <Text type="success">
+                    {pageData.length} 
+                  </Text>
+                </Table.Summary.Cell>
                 <Table.Summary.Cell index={0}>Total</Table.Summary.Cell>
                 <Table.Summary.Cell index={1}>
                   <Text type="success">
