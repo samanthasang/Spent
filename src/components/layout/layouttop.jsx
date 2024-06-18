@@ -368,39 +368,41 @@ const LayoutTop = () => {
     <>
       <Context.Provider value={contextValue}>
         {contextHolder}
-        <div className="our-partner-controller flex flex-col" style={{}}>
-          <Link
-            htmlType="submit"
-            className="btn_next"
-            style={{ width: "100%", marginLeft: "0" }}
-            to={"/home"}
-          >
-            Buy
-          </Link>
-          <Link
-            htmlType="submit"
-            className="btn_next"
-            style={{ width: "100%", marginLeft: "0" }}
-            to={"/Time"}
-          >
-            Time
-          </Link>
-          <Link
-            htmlType="submit"
-            className="btn_next"
-            style={{ width: "100%", marginLeft: "0" }}
-            to={"/Callender"}
-          >
-            Callender
-          </Link>
-          <Button
-            htmlType="submit"
-            className="btn_next"
-            style={{ width: "100%", marginLeft: "0" }}
-            onClick={handleSubmit}
-          >
-            LogOut
-          </Button>
+        <div className="headerContainer flex flex-col" style={{}}>
+          <div className="menuContainer">
+            <Link
+              htmlType="submit"
+              className="btn_next"
+              style={{ width: "100%", marginLeft: "0" }}
+              to={"/home"}
+            >
+              Buy
+            </Link>
+            <Link
+              htmlType="submit"
+              className="btn_next"
+              style={{ width: "100%", marginLeft: "0" }}
+              to={"/Time"}
+            >
+              Time
+            </Link>
+            <Link
+              htmlType="submit"
+              className="btn_next"
+              style={{ width: "100%", marginLeft: "0" }}
+              to={"/Callender"}
+            >
+              Callender
+            </Link>
+            <Button
+              htmlType="submit"
+              className="btn_next"
+              style={{ width: "100%", marginLeft: "0" }}
+              onClick={handleSubmit}
+            >
+              LogOut
+            </Button>
+          </div>
         </div>
 
         <FloatButton.Group

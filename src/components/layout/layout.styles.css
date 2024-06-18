@@ -29,12 +29,20 @@ svg {
   display: flex;
   flex-direction: column;
 }
-.our-partner-controller {
+.headerContainer {
+  position: sticky;
+  top: 0;
+  background: #d9d9d9;
+  width: 100%;
+  z-index: 9999;
+}
+.menuContainer {
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
   gap: 0.5rem;
+  width: fit-content;
 }
 
 .btn_next {
